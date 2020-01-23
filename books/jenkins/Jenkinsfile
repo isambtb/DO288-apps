@@ -139,7 +139,7 @@ pipeline {
                 script {
                     routeHost = readFile('routehost').trim()
 
-                    openshift.withCluster() {
+			openshift.withCluster("${STAGE_PROJECT}") {
                         //TODO: Watch deployment until pod is in 'Running' state
                         def deployment = openshift.selector("dc","${APP_NAME}").rollout()
                         openshift.selector("dc", "${APP_NAME}").related('pods').untilEach(1){
